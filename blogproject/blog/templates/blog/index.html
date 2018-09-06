@@ -1,0 +1,127 @@
+﻿<!doctype html>
+<html>
+<head>
+<meta charset="UTF-8">
+{% load static %}
+<title>胡中磊的博客</title>
+<meta name="keywords" content="胡中磊的博客" />
+<meta name="description" content="胡中磊的博客" />
+<link href="{% static 'blog/css/base.css' %}" rel="stylesheet">
+<link href="{% static 'blog/css/index.css' %}" rel="stylesheet">
+<link href="{% static 'blog/css/media.css' %}" rel="stylesheet">
+<meta name="viewport" content="width=device-width, minimum-scale=1.0, maximum-scale=1.0">
+<!--[if lt IE 9]>
+<script src="js/modernizr.js"></script>
+<![endif]-->
+</head>
+<body>
+<div class="ibody">
+  <header>
+    <h1>昆仑</h1>
+    <h2>昆仑剑出血汪洋，千里直驱黄河黄</h2>
+    <div class="logo"><a href="{% url 'blog:index' %}"></a></div>
+    <nav id="topnav">
+      <a href="{% url 'blog:index' %}">首页</a>
+      <a href="{% url 'blog:blogList' 1 %}">博客列表</a>
+      <a href="{% url 'blog:share' %}">文章分享</a>
+      <a href="{% url 'blog:about' %}">关于我</a>
+      <a href="{% url 'blog:rss' %}">RSS</a>
+      {% if state %}
+        <a href="{% url 'blog:logout' %}">退出</a>
+      {% else %}
+        <a href="{% url 'blog:loginView' %}">登录</a>
+      {% endif %}
+    </nav>
+  </header>
+  <article>
+    <div class="banner">
+      <ul class="texts">
+        <p>The best life is use of willing attitude, a happy-go-lucky life. </p>
+        <p>最好的生活是用心甘情愿的态度，过随遇而安的生活。</p>
+      </ul>
+    </div>
+    <div class="bloglist">
+      <h2>
+        <p><span>推荐</span>文章</p>
+      </h2>
+      {% for post in topList %}
+        <div class="blogs">
+          <h3><a href="{% url 'blog:blogdetails' post.pk %}">{{ post.title }}</a></h3>
+          <figure><img src="{% static 'blog/images/01.jpg' %}" ></figure>
+          <ul>
+            <p>{{ post.excerpt }}</p>
+            <a href="{% url 'blog:blogdetails' post.pk %}" target="_blank" class="readmore">阅读全文&gt;&gt;</a>
+          </ul>
+          <p class="autor">
+            <span>作者：{{ post.author.name }}</span><span>分类：【<a href="/">{{ post.category.name }}</a>】</span><span>浏览（<a href="/">{{ post.views }}</a>）</span><span>评论（<a href="/">{{ post.likes }}</a>）</span>
+          </p>
+          <div class="dateview">{{ post.created_time.year }}-{{ post.created_time.month }}-{{ post.created_time.day }}</div>
+        </div>
+      {% endfor %}
+    </div>
+  </article>
+  <aside>
+    <div class="avatar"><a href="about.html"><span>胡中磊</span></a></div>
+    <div class="topspaceinfo">
+      <h1>昆仑</h1>
+      <p>昆仑剑出血汪洋，千里直驱黄河黄</p>
+    </div>
+    <div class="about_c">
+      <p>网名：三石而立</p>
+      <p>职业：ios工程师</p>
+      <p>籍贯：安徽省—淮南市</p>
+      <p>电话：13816538854</p>
+      <p>邮箱：602387134@qq.com</p>
+    </div>
+    <div class="bdsharebuttonbox">
+      <a href="#" class="bds_qzone" data-cmd="qzone" title="分享到QQ空间"></a>
+      <a href="#" class="bds_tsina" data-cmd="tsina" title="分享到新浪微博"></a>
+      <a href="#" class="bds_tqq" data-cmd="tqq" title="分享到腾讯微博"></a>
+      <a href="#" class="bds_renren" data-cmd="renren" title="分享到人人网"></a>
+      <a href="#" class="bds_weixin" data-cmd="weixin" title="分享到微信"></a>
+      <a href="#" class="bds_more" data-cmd="more"></a>
+    </div>
+    <div class="tj_news">
+      <h2>
+        <p class="tj_t1">最新文章</p>
+      </h2>
+      <ul>
+        {% for post in newList %}
+          <li><a href="{% url 'blog:blogdetails' post.pk %}">{{ post.title }}</a></li>
+        {% endfor %}
+      </ul>
+      <h2>
+        <p class="tj_t2">点击排行</p>
+      </h2>
+      <ul>
+        {% for post in readList %}
+          <li><a href="{% url 'blog:blogdetails' post.pk %}">{{ post.title }}</a></li>
+        {% endfor %}
+      </ul>
+    </div>
+    <div class="links">
+      <h2>
+        <p>友情链接</p>
+      </h2>
+      <ul>
+        <li><a href="/">胡中磊个人博客</a></li>
+        <li><a href="/">3DST技术社区</a></li>
+      </ul>
+    </div>
+    <div class="copyright">
+      <ul>
+        <p> Design by <a href="/">DanceSmile</a></p>
+        <p>蜀ICP备11002373号-1</p>
+        </p>
+      </ul>
+    </div>
+  </aside>
+  <script src="js/silder.js"></script>
+  <div class="clear"></div>
+  <!-- Çå³ý¸¡¶¯ --> 
+</div>
+<div class="footer">
+  <p>胡中磊@2018<a href="#">意见反馈</a></p>
+</div><!--footer结束-->
+</body>
+</html>

@@ -1,0 +1,86 @@
+﻿/* CSS Document */
+@charset "utf-8";
+
+#commentbox{
+	margin: 10px;
+}
+
+#frombox{
+	clear: both;
+	margin: 15px;
+	padding-top: 10px;
+}
+
+#frombox h3{ 
+
+	border-bottom: #099 2px solid; 
+	line-height: 40px; 
+	font-size: 12px; 
+	background: url(../images/5794.png) 10px center no-repeat; 
+	padding-left: 40px; 
+	color: #099 
+}
+#frombox p{ 
+
+	padding-top: 10px;
+	font-size: 16px; 
+}
+
+#frombox{
+	margin: 10px;	
+}
+.commentarea {
+	width: auto;
+	margin: 10px 40px 10px 40px;
+}
+#body_text{
+	height: 180px;
+	width: 100%;
+	padding: 5px;
+	font-size: 14px;
+	resize:none
+}
+.login{
+	text-align:right;
+}
+.login button{
+
+	border: 0px;
+	margin-right: 40px;
+	margin-bottom: 10px;
+	height: 40px;
+	color: white;
+	font-size: 18px;
+	width: 100px;
+	background-color:red;
+}
+
+.login button:hover{
+	background-color: white;
+	color: red;
+	border: 1px solid red;
+}
+
+.comment{
+	padding-left: 20px;
+	margin: 10px;
+	background-color: #F8F8F8;
+	padding-top: 10px;
+	padding-bottom: 10px;
+	border: 1px solid #F0F0F0;
+}
+
+.comment h4{
+	font-size: 16px;
+}
+
+.comment h4 span{
+	margin-left: 10px;
+	font-size: 14px;
+	color: #756f71;
+}
+
+.comment p{
+	margin-top: 10px;
+	font-size: 14px;
+}

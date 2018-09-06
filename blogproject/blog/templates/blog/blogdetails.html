@@ -1,0 +1,189 @@
+﻿<!doctype html>
+<html>
+<head>
+{% load static %}
+<title>胡中磊的博客</title>
+<meta name="keywords" content="胡中磊的博客" />
+<meta name="description" content="胡中磊的博客" />
+<link href="{% static 'blog/css/base.css' %}" rel="stylesheet">
+<link href="{% static 'blog/css/style.css' %}" rel="stylesheet">
+<link href="{% static 'blog/css/media.css' %}" rel="stylesheet">
+<link href="{% static 'blog/css/comment.css' %}" rel="stylesheet">
+<meta name="viewport" content="width=device-width, minimum-scale=1.0, maximum-scale=1.0">
+<script src="https://apps.bdimg.com/libs/jquery/2.1.4/jquery.min.js"></script>
+<!--[if lt IE 9]>
+<script src="js/modernizr.js"></script>
+<![endif]-->
+</head>
+<body>
+<div class="ibody">
+  <header>
+    <h1>昆仑</h1>
+    <h2>昆仑剑出血汪洋，千里直驱黄河黄</h2>
+    <div class="logo"><a href="{% url 'blog:index' %}"></a></div>
+    <nav id="topnav">
+      <a href="{% url 'blog:index' %}">首页</a>
+      <a href="{% url 'blog:blogList' 1 %}">博客列表</a>
+      <a href="{% url 'blog:share' %}">文章分享</a>
+      <a href="{% url 'blog:about' %}">关于我</a>
+    </nav>
+  </header>
+  <article>
+    <h2 class="about_h">您现在的位置
+      <a href="{% url 'blog:index' %}">首页</a>
+      >
+      <a href="{% url 'blog:blogList' 1 %}">博客列表</a>
+    </h2>
+    <div class="index_about">
+      <h2 class="c_titile">{{ post.title }}</h2>
+      <p class="box_c">
+        <span class="d_time">发布时间：{{ post.created_time|date:"Y-m-d H:i" }}</span>
+        <span>编辑：{{ post.author.name }}</span>
+        <span>浏览（{{ post.views }}）</span>
+        <span>评论（{{ post.likes }}）</span></p>
+      <ul class="infos">
+        <p>{{ post.body|safe }}</p>
+      </ul>
+      <div class="keybq">
+        <p><span>标签</span>：
+          {% for tag in post.tags.all %}
+            {{ tag.name }}{% if not forloop.last %},{% endif %}
+          {% endfor %}
+        </p>
+      </div>
+      <div class="nextinfo">
+        <p>上一篇：<a href="/">为政篇</a></p>
+        <p>下一篇：<a href="/">里仁篇</a></p>
+      </div>
+      <div class="otherlink">
+        <h2>相关文章</h2>
+        <ul>
+          <li><a href="/">子路篇</a></li>
+        </ul>
+      </div>
+    </div>
+    <div id="commentbox">
+      <div id="frombox">
+        <h3>评论</h3>
+        <p>评论：</p>
+        <div class="commentarea">
+          <textarea  id="body_text" maxlength="200" placeholder="给个评论吧！"></textarea>
+        </div>
+        <div class="login">
+          <button>发表</button>
+        </div>
+      </div><!--frombox结束-->
+      <div id="commentList">
+        {% for comment in commentList %}
+          <div class="comment">
+          <h4>{{ comment.author.name }}
+            <span>
+              {{ comment.created_time.year }}-{{ comment.created_time.month }}-{{ comment.created_time.day }}
+            </span>
+          </h4>
+          <p>{{ comment.body }}</p>
+        </div>
+        {% endfor %}
+      </div><!--commentList结束-->
+    </div>
+  </article>
+  <aside>
+    <div class="rnav">
+      {% for category in categoryList %}
+        <li class="rnav1 ">
+          <a href="{% url 'blog:blogList' 1 %}">{{ category.name }}</a>
+        </li>
+      {% endfor %}
+    </div>
+    <div class="ph_news">
+      <h2>
+        <p>点击排行</p>
+      </h2>
+      <ul class="ph_n">
+        {% for post in readList %}
+          <li><span class="num1">1</span><a href="/">{{ post.title }}</a></li>
+        {% endfor %}
+      </ul>
+      <h2>
+        <p>栏目推荐</p>
+      </h2>
+      <ul>
+        {% for post in topList %}
+          <li><a href="/">{{ post.title }}</a></li>
+        {% endfor %}
+      </ul>
+      <h2>
+        <p>最新评论</p>
+      </h2>
+      <ul class="pl_n">
+        <dl>
+          <dt><img src="{% static 'blog/images/s8.jpg' %}"  > </dt>
+          <dt> </dt>
+          <dd>加隆
+            <time>36分钟前</time>
+          </dd>
+          <dd><a href="/">文章非常详细，我很喜欢.前端的工程师很少，我记得几年前yahoo花高薪招聘前端也招不到</a></dd>
+        </dl>
+      </ul>
+      <h2>
+        <p>最近访客</p>
+        <ul>
+          <img src="{% static 'blog/images/vis.jpg' %}"  >
+        </ul>
+      </h2>
+    </div>
+    <div class="copyright">
+      <ul>
+        <p> Design by <a href="/">DanceSmile</a></p>
+        <p>蜀ICP备11002373号-1</p>
+        </p>
+      </ul>
+    </div>
+  </aside>
+  <script src="js/silder.js"></script>
+  <div class="clear"></div>
+  <!-- Çå³ý¸¡¶¯ --> 
+</div>
+<div class="footer">
+  <p>胡中磊@2018<a href="#">意见反馈</a></p>
+</div><!--footer结束-->
+<script>
+
+  $.ajaxSetup({
+    data: {csrfmiddlewaretoken: '{{ csrf_token }}' },
+  });
+  $("button").click(function(){
+
+    var user_id="";
+
+    {% if state %}
+      user_id = {{ userID }};
+    {% endif %}
+
+    if(user_id.length==0){
+      window.open("{% url 'blog:loginView' %}","_self");
+      return;
+    }
+    if ($("#body_text").val().length==0) {
+      alert('请输入评论内容');
+      return;
+    };
+
+    $.ajax({
+      url:"{% url 'blog:comment' %}",
+      data:{content:$("#body_text").val(), post_id:{{ post.pk }}},
+      cache : false,
+      async : false,
+      type : "POST",
+      success : function (result){
+
+        alert(result);
+
+        window.location.reload()
+      }
+         });
+  });
+
+</script>
+</body>
+</html>

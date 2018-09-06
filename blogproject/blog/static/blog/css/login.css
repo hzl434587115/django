@@ -1,0 +1,86 @@
+﻿body{
+	background-color:#F2F2F2;
+	text-align:center;
+}
+
+#content{
+	display: inline-block;
+	margin-top: 50px;
+}
+
+#content .pannel{
+	background-color: white;
+	display: inline-block;
+	border: 1px solid #ddd;
+	padding: 20px;
+	border-radius: 5px;
+}
+
+#content .pannel .group{
+	margin-bottom: 20px;
+}
+
+#content .pannel .group input{
+	display: block;
+	width: 250px;
+	height: 33px;
+	border: 1px solid #ddd;
+	font-size: 15px;
+	padding-left: 5px;
+	outline: none;
+}
+
+#content .pannel .group input:focus{
+	border: 1px solid #CC865E;
+}
+
+#content .pannel .group label{
+	display: block;
+	margin: 5px 0px;
+	text-align: left;
+}
+
+#content .pannel .login button{
+	width: 250px;
+	background-color: #CC865E;
+}
+
+#content .pannel .login button:hover{
+	background-color: white;
+	color: #CC865E;
+	border: 1px solid #CC865E;
+}
+
+#content .reg{
+	margin-top: 20px;
+}
+
+#content .reg button{
+	width: 200px;
+	background-color: #466BAF;
+}
+
+#content .reg button:hover{
+	background-color: white;
+	color: #466BAF;
+	border: 1px solid #466BAF;
+}
+
+#content button{
+	padding: 0px;
+	margin: 0px;
+	border: 0px;
+	height: 33px;
+	color: white;
+	font-size: 18px;
+}
+
+
+
+
+
+
+
+
+
+

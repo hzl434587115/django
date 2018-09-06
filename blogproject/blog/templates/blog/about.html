@@ -1,0 +1,92 @@
+﻿<!doctype html>
+<html>
+<head>
+<meta charset="UTF-8">
+{% load static %}
+<title>胡中磊的博客</title>
+<meta name="keywords" content="胡中磊的博客" />
+<meta name="description" content="胡中磊的博客" />
+<link href="{% static 'blog/css/base.css' %}" rel="stylesheet">
+<link href="{% static 'blog/css/about.css' %}" rel="stylesheet">
+<link href="{% static 'blog/css/media.css' %}" rel="stylesheet">
+<meta name="viewport" content="width=device-width, minimum-scale=1.0, maximum-scale=1.0">
+<!--[if lt IE 9]>
+<script src="js/modernizr.js"></script>
+<![endif]-->
+</head>
+<body>
+<div class="ibody">
+  <header>
+    <h1>昆仑</h1>
+    <h2>昆仑剑出血汪洋，千里直驱黄河黄</h2>
+    <div class="logo"><a href="{% url 'blog:index' %}"></a></div>
+    <nav id="topnav">
+      <a href="{% url 'blog:index' %}">首页</a>
+      <a href="{% url 'blog:blogList' 1 %}">博客列表</a>
+      <a href="{% url 'blog:share' %}">文章分享</a>
+      <a href="{% url 'blog:about' %}">关于我</a>
+    </nav>
+  </header>
+  <article>
+    <h3 class="about_h">您现在的位置
+      <a href="{% url 'blog:index' %}">首页</a>
+      >
+      <a href="{% url 'blog:about' %}">关于我</a>
+    </h3>
+    <div class="about">
+      <h2>Just about me</h2>
+      <ul>
+        <p>
+          檄谕齐鲁河洛燕蓟秦晋之人曰：自古帝王临御天下，皆中国居内以制夷狄，夷狄居外以奉中国，未闻以夷狄居中国而制天下也。自宋祚倾移，元以北夷入主中国，四海以内，罔不臣服，此岂人力，实乃天授。彼时君明臣良，足以纲维天下，然达人志士，尚有冠履倒置之叹。自是以后，元之臣子，不遵祖训，废坏纲常，有如大德废长立幼，泰定以臣弑君，天历以弟鸠兄，至于弟收兄妻，子征父妾，上下相习，恬不为怪，其于父子君臣夫妇长幼之伦，渎乱甚矣。夫人君者斯民之宗主，朝廷者天下之根本，礼仪者御世之大防，其所为如彼，岂可为训于天下后世哉！
+        </p>
+        <p>
+          及其后嗣沉荒，失君臣之道，又加以宰相专权，宪台抱怨，有司毒虐，于是人心离叛，天下兵起，使我中国之民，死者肝脑涂地，生者骨肉不相保，虽因人事所致，实乃天厌其德而弃之之时也。古云：“胡虏无百年之运，验之今日，信乎不谬。
+        </p>
+        <p>
+          当此之时，天运循环，中原气盛，亿兆之中，当降生圣人，驱除胡虏，恢复中华，立纲陈纪，救济斯民。今一纪于兹，未闻有治世安民者，徒使尔等战战兢兢，处于朝秦暮楚之地，诚可矜闵。
+        </p>
+        <p>
+          方今河、洛、关、陕，虽有数雄：忘中国祖宗之姓，反就胡虏禽兽之名，以为美称，假元号以济私，恃有众以要君，凭陵跋扈，遥制朝权，此河洛之徒也；或众少力微，阻兵据险，贿诱名爵，志在养力，以俟衅隙，此关陕之人也。二者其始皆以捕妖人为名，乃得兵权。及妖人已灭，兵权已得，志骄气盈，无复尊主庇民之意，互相吞噬，反为生民之巨害，皆非华夏之主也。
+        </p>
+        <p>
+          予本淮右布衣，因天下大乱，为众所推，率师渡江，居金陵形式之地，得长江天堑之险，今十有三年。西抵巴蜀，东连沧海，南控闽越，湖、湘、汉、沔，两淮、徐、邳，皆入版图，奄及南方，尽为我有。民稍安，食稍足，兵稍精，控弦执矢，目视我中原之民，久无所主，深用疚心。予恭承天命，罔敢自安，方欲遣兵北逐胡虏，拯生民于涂炭，复汉官之威仪。虑民人未知，反为我仇，絜家北走，陷溺犹深，故先逾告：兵至，民人勿避。予号令严肃，无秋毫之犯，归我者永安于中华，背我者自窜于塞外。盖我中国之民，天必命我中国之人以安之，夷狄何得而治哉！予恐中土久污膻腥，生民扰扰，故率群雄奋力廓清，志在逐胡虏，除暴乱，使民皆得其所，雪中国之耻，尔民等其体之。
+        </p>
+        <p>
+          如 蒙古、色目，虽非华夏族类，然同生天地之间，有能知礼义，愿为臣民者，与中夏之人抚养无异。故兹告谕，想宜知悉。
+        </p>
+      </ul>
+      <h2>About my blog</h2>
+      <ul class="blog_a">
+        <p>域 名：www.yangqq.com 创建于2011年01月12日<a href="http://www.net.cn/domain/" class="blog_link" target="_blank">注册域名</a><a class="blog_link" href="http://koubei.baidu.com/womc/s/www.yangqq.com" target="_blank">邀您点评</a></p>
+        <p>服务器：阿里云服务器<a href="http://www.aliyun.com/product/ecs/?ali_trackid=2:mm_11085263_4976026_15602229:1389838528_3k2_34164590" class="blog_link" target="_blank">购买空间</a><a href="/jstt/web/2014-01-18/644.html" target="_blank" class="blog_link" >参考我的空间配置</a></p>
+        <p>程 序：PHP 帝国CMS7.0</p>
+        <p>微信公众号：mingchaoba</p>
+      </ul>
+    </div>
+  </article>
+  <aside>
+    <div class="avatar"><a href="about.html"><span>胡中磊</span></a></div>
+    <div class="topspaceinfo">
+      <h1>昆仑</h1>
+      <p>昆仑剑出血汪洋，千里直驱黄河黄</p>
+    </div>
+    <div class="about_c">
+      <p>网名：三石而立</p>
+      <p>职业：ios工程师</p>
+      <p>籍贯：安徽省—淮南市</p>
+      <p>电话：13816538854</p>
+      <p>邮箱：602387134@qq.com</p>
+      <p><a target="_blank" href="http://mail.qq.com/cgi-bin/qm_share?t=qm_mailme&amp;email=HHh9cn95b3F1cHVye1xtbTJ-c3E" ><img src="http://rescdn.qqmail.com/zh_CN/htmledition/images/function/qm_open/ico_mailme_22.png" alt="ÑîÇà¸öÈË²©¿ÍÍøÕ¾"></a></p>
+      <p> 
+        <!--ÒÔÏÂÊÇQQÓÊ¼þÁÐ±í¶©ÔÄÇ¶Èë´úÂë--><a target="_blank" href="http://list.qq.com/cgi-bin/qf_invite?id=65fb9b3618916f162973471ebc5b97ff786efae0ec9a863e"><img border="0" alt="ÌîÐ´ÄúµÄÓÊ¼þµØÖ·£¬¶©ÔÄÎÒÃÇµÄ¾«²ÊÄÚÈÝ£º" src="http://rescdn.list.qq.com/zh_CN/htmledition/images/qunfa/manage/picMode_light_m.png" /></a> </p>
+    </div>
+  </aside>
+  <script src="js/silder.js"></script>
+  <div class="clear"></div>
+  <!-- Çå³ý¸¡¶¯ --> 
+</div>
+<div class="footer">
+  <p>胡中磊@2018<a href="#">意见反馈</a></p>
+</div><!--footer结束-->
+</body>
+</html>

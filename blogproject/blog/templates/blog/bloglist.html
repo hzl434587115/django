@@ -1,0 +1,133 @@
+﻿<!doctype html>
+<html>
+<head>
+<meta charset="UTF-8">
+{% load static %}
+<title>胡中磊的博客</title>
+<meta name="keywords" content="胡中磊的博客" />
+<meta name="description" content="胡中磊的博客" />
+<link href="{% static 'blog/css/base.css' %}" rel="stylesheet">
+<link href="{% static 'blog/css/style.css' %}" rel="stylesheet">
+<link href="{% static 'blog/css/media.css' %}" rel="stylesheet">
+<meta name="viewport" content="width=device-width, minimum-scale=1.0, maximum-scale=1.0">
+<!--[if lt IE 9]>
+<script src="js/modernizr.js"></script>
+<![endif]-->
+</head>
+<body>
+<div class="ibody">
+  <header>
+    <h1>昆仑</h1>
+    <h2>昆仑剑出血汪洋，千里直驱黄河黄</h2>
+    <div class="logo"><a href="{% url 'blog:index' %}"></a></div>
+    <nav id="topnav">
+      <a href="{% url 'blog:index' %}">首页</a>
+      <a href="{% url 'blog:blogList' 1 %}">博客列表</a>
+      <a href="{% url 'blog:share' %}">文章分享</a>
+      <a href="{% url 'blog:about' %}">关于我</a>
+    </nav>
+  </header>
+  <article>
+    <h2 class="about_h">您现在的位置
+      <a href="{% url 'blog:index' %}">首页</a>
+      >
+      <a href="{% url 'blog:blogList' 1 %}">博客列表</a>
+    </h2>
+    <div class="bloglist">
+      {% for post in postList %}
+        <div class="newblog">
+          <ul>
+            <h3><a href="{% url 'blog:blogdetails' post.pk %}">{{ post.title }}</a></h3>
+            <div class="autor"><span>作者：{{ post.author.name }}</span><span>分类[<a href="/">{{ post.category.name }}</a>]</span><span>浏览（<a href="/">{{ post.views }}</a>）</span><span>评论（<a href="/">{{ post.likes }}</a>）</span></div>
+            <p>{{ post.excerpt }}<a href="/" target="_blank" class="readmore">全文</a></p>
+          </ul>
+          <figure><img src="{% static 'blog/images/01.jpg' %}" ></figure>
+          <div class="dateview">{{ post.created_time.year }}-{{ post.created_time.month }}-{{ post.created_time.day }}</div>
+        </div>
+      {% endfor %}
+    </div>
+    <div class="page">
+      <a href="{% url 'blog:blogList' 1 %}">&lt;&lt;</a>
+      {% if page == 1 %}
+        <b>&lt;</b>
+      {% else %}
+        <a href="{% url 'blog:blogList' beforePage %}">&lt;</a>
+      {% endif %}
+      {% for leftPage in left %}
+        <a href="{% url 'blog:blogList' leftPage %}">{{ leftPage }}</a>
+      {% endfor %}
+      <b>{{ page }}</b>
+      {% for rightPage in right %}
+        <a href="{% url 'blog:blogList' rightPage %}">{{ rightPage }}</a>
+      {% endfor %}
+      {% if page == totalPage %}
+        <b>&gt;</b>
+      {% else %}
+        <a href="{% url 'blog:blogList' afterPage %}">&gt;</a>
+      {% endif %}
+      <a href="{% url 'blog:blogList' totalPage %}">&gt;&gt;</a>
+      <a title="Total record"><b>{{ totalPage }}</b></a>
+    </div>
+  </article>
+  <aside>
+    <div class="rnav">
+      {% for category in categoryList %}
+        <li class="rnav1 ">
+          <a href="{% url 'blog:blogList' 1 %}">{{ category.name }}</a>
+        </li>
+      {% endfor %}
+    </div>
+    <div class="ph_news">
+      <h2>
+        <p>点击排行</p>
+      </h2>
+      <ul class="ph_n">
+        {% for post in readList %}
+          <li><span class="num1">1</span><a href="/">{{ post.title }}</a></li>
+        {% endfor %}
+      </ul>
+      <h2>
+        <p>栏目推荐</p>
+      </h2>
+      <ul>
+        {% for post in topList %}
+          <li><a href="/">{{ post.title }}</a></li>
+        {% endfor %}
+      </ul>
+      <h2>
+        <p>最新评论</p>
+      </h2>
+      <ul class="pl_n">
+        <dl>
+          <dt><img src="{% static 'blog/images/s8.jpg' %}"  > </dt>
+          <dt> </dt>
+          <dd>加隆
+            <time>36分钟前</time>
+          </dd>
+          <dd><a href="/">文章非常详细，我很喜欢.前端的工程师很少，我记得几年前yahoo花高薪招聘前端也招不到</a></dd>
+        </dl>
+      </ul>
+      <h2>
+        <p>最近访客</p>
+        <ul>
+          <img src="{% static 'blog/images/vis.jpg' %}"  >
+        </ul>
+      </h2>
+    </div>
+    <div class="copyright">
+      <ul>
+        <p> Design by <a href="/">DanceSmile</a></p>
+        <p>蜀ICP备11002373号-1</p>
+        </p>
+      </ul>
+    </div>
+  </aside>
+  <script src="js/silder.js"></script>
+  <div class="clear"></div>
+  <!-- Çå³ý¸¡¶¯ --> 
+</div>
+<div class="footer">
+  <p>胡中磊@2018<a href="#">意见反馈</a></p>
+</div><!--footer结束-->
+</body>
+</html>
