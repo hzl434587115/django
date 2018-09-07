@@ -25,7 +25,7 @@ SECRET_KEY = '%pneig1233u16yjekk(_1h1l3ytqc7(%dg6h#p6gj15mp*!2#7'
 # SECURITY WARNING: don't run with debug turned on in production!
 DEBUG = False
 
-ALLOWED_HOSTS = ['127.0.0.1', 'localhost ', '.juyiting.com']
+ALLOWED_HOSTS = ['127.0.0.1', 'localhost ', 'www.juyiting.com', '104.224.161.114']
 
 
 # Application definition
@@ -121,6 +121,7 @@ USE_TZ = True
 # https://docs.djangoproject.com/en/2.1/howto/static-files/
 
 STATIC_URL = '/static/'
+STATIC_ROOT = os.path.join(BASE_DIR, 'static')
 
 # 上传的文件地址
 PROJECT_ROOT = os.path.abspath(os.path.join(os.path.dirname('__file__')))
