@@ -138,7 +138,7 @@ def comment(request):
 def test(request, year):
 	
 	print(year)
-	return HttpResponse(u"昆仑")
+	return HttpResponse(u"自动部署成功")
 
 def userData(request):
 
