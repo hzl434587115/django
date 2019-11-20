@@ -24,6 +24,12 @@
       <a href="{% url 'blog:blogList' 1 %}">博客列表</a>
       <a href="{% url 'blog:share' %}">文章分享</a>
       <a href="{% url 'blog:about' %}">关于我</a>
+      <a href="{% url 'blog:rss' %}">RSS</a>
+      {% if state %}
+        <a href="{% url 'blog:logout' %}">退出</a>
+      {% else %}
+        <a href="{% url 'blog:loginView' %}">登录</a>
+      {% endif %}
     </nav>
   </header>
   <article>

@@ -61,17 +61,22 @@
     </div>
   </article>
   <aside>
-    <div class="avatar"><a href="about.html"><span>胡中磊</span></a></div>
+    <div class="avatar">
+      <img src="{{ userIcon }}" style='margin-top:0px;height:100%;width:100%;text-align:center;'>
+      <a href="{% url 'blog:about' %}">
+        <span>{{ account }}</span>
+      </a>
+    </div>
     <div class="topspaceinfo">
       <h1>昆仑</h1>
-      <p>昆仑剑出血汪洋，千里直驱黄河黄</p>
+      <p>{{ sign }}</p>
     </div>
     <div class="about_c">
-      <p>网名：三石而立</p>
-      <p>职业：ios工程师</p>
-      <p>籍贯：安徽省—淮南市</p>
-      <p>电话：13816538854</p>
-      <p>邮箱：602387134@qq.com</p>
+      <p>网名：{{ name }}</p>
+      <p>职业：{{ professional }}</p>
+      <p>地址：{{ address }}</p>
+      <p>电话：{{ phone }}</p>
+      <p>邮箱：{{ email }}</p>
     </div>
     <div class="bdsharebuttonbox">
       <a href="#" class="bds_qzone" data-cmd="qzone" title="分享到QQ空间"></a>
