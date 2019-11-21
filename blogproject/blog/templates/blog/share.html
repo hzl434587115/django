@@ -42,12 +42,12 @@
       {% for userList in groupList %}
         <h3>
           <p><span>用户</span>组</p>
-          <a href="/" class="more">更多>></a> 
+          <a class="more">更多>></a> 
         </h3>
         <ul>
           {% for user in userList %}
             <li>
-              <a href="/"  target="_blank">
+              <a>
                 <img src="{{ user.userIcon.url }}">
               </a>
               <span>{{ user.name }}</span>
@@ -71,7 +71,7 @@
       </h2>
       <ul class="ph_n">
         {% for post in readList %}
-          <li><span class="num1">1</span><a href="/">{{ post.title }}</a></li>
+          <li><span class="num1">1</span><a href="{% url 'blog:blogdetails' post.pk %}">{{ post.title }}</a></li>
         {% endfor %}
       </ul>
       <h2>
@@ -79,7 +79,7 @@
       </h2>
       <ul>
         {% for post in topList %}
-          <li><a href="/">{{ post.title }}</a></li>
+          <li><a href="{% url 'blog:blogdetails' post.pk %}">{{ post.title }}</a></li>
         {% endfor %}
       </ul>
       <h2>
@@ -92,7 +92,7 @@
           <dd>加隆
             <time>36分钟前</time>
           </dd>
-          <dd><a href="/">文章非常详细，我很喜欢.前端的工程师很少，我记得几年前yahoo花高薪招聘前端也招不到</a></dd>
+          <dd><a>文章非常详细，我很喜欢.前端的工程师很少，我记得几年前yahoo花高薪招聘前端也招不到</a></dd>
         </dl>
       </ul>
       <h2>
@@ -104,7 +104,7 @@
     </div>
     <div class="copyright">
       <ul>
-        <p> Design by <a href="/">DanceSmile</a></p>
+        <p> Design by <a>DanceSmile</a></p>
         <p>蜀ICP备11002373号-1</p>
         </p>
       </ul>
@@ -115,7 +115,7 @@
   <!-- Çå³ý¸¡¶¯ --> 
 </div>
 <div class="footer">
-  <p>胡中磊@2018<a href="#">意见反馈</a></p>
+  <p>胡中磊@2018<a>意见反馈</a></p>
 </div><!--footer结束-->
 </body>
 </html>

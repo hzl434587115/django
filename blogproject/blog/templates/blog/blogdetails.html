@@ -74,7 +74,7 @@
       <div class="otherlink">
         <h2>相关文章</h2>
         <ul>
-          <li><a href="/">子路篇</a></li>
+          <li><a>子路篇</a></li>
         </ul>
       </div>
     </div>
@@ -134,7 +134,7 @@
       </h2>
       <ul class="ph_n">
         {% for post in readList %}
-          <li><span class="num{{ forloop.counter }}">{{ forloop.counter }}</span><a href="/">{{ post.title }}</a></li>
+          <li><span class="num{{ forloop.counter }}">{{ forloop.counter }}</span><a href="{% url 'blog:blogdetails' post.pk %}">{{ post.title }}</a></li>
         {% endfor %}
       </ul>
       <h2>
@@ -142,7 +142,7 @@
       </h2>
       <ul>
         {% for post in topList %}
-          <li><a href="/">{{ post.title }}</a></li>
+          <li><a href="{% url 'blog:blogdetails' post.pk %}">{{ post.title }}</a></li>
         {% endfor %}
       </ul>
       <h2>
@@ -155,7 +155,7 @@
           <dd>加隆
             <time>36分钟前</time>
           </dd>
-          <dd><a href="/">文章非常详细，我很喜欢.前端的工程师很少，我记得几年前yahoo花高薪招聘前端也招不到</a></dd>
+          <dd><a>文章非常详细，我很喜欢.前端的工程师很少，我记得几年前yahoo花高薪招聘前端也招不到</a></dd>
         </dl>
       </ul>
       <h2>
@@ -167,7 +167,7 @@
     </div>
     <div class="copyright">
       <ul>
-        <p> Design by <a href="/">DanceSmile</a></p>
+        <p> Design by <a>DanceSmile</a></p>
         <p>蜀ICP备11002373号-1</p>
         </p>
       </ul>
@@ -184,7 +184,7 @@
   {% endif %}
 </div>
 <div class="footer">
-  <p>胡中磊@2018<a href="#">意见反馈</a></p>
+  <p>胡中磊@2018<a>意见反馈</a></p>
 </div><!--footer结束-->
 <script>
 
