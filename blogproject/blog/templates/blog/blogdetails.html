@@ -30,7 +30,7 @@
       {% if state %}
         <a href="{% url 'blog:logout' %}">退出</a>
       {% else %}
-        <a href="{% url 'blog:loginView' %}">登录</a>
+        <a href="{% url 'blog:loginView' %}?next=about&a=1">登录</a>
       {% endif %}
     </nav>
   </header>
@@ -58,8 +58,18 @@
         </p>
       </div>
       <div class="nextinfo">
-        <p>上一篇：<a href="/">为政篇</a></p>
-        <p>下一篇：<a href="/">里仁篇</a></p>
+        <p>上一篇：
+          {% if pre_blog %}
+            <a href="{% url 'blog:blogdetails' pre_blog.pk %}">{{ pre_blog.title }}</a>
+          {% else %}
+            没有了
+          {% endif %}
+        <p>下一篇：
+          {% if next_blog %}
+            <a href="{% url 'blog:blogdetails' next_blog.pk %}">{{ next_blog.title }}</a>
+          {% else %}
+            没有了
+          {% endif %}
       </div>
       <div class="otherlink">
         <h2>相关文章</h2>
@@ -71,27 +81,44 @@
     <div id="commentbox">
       <div id="frombox">
         <h3>评论</h3>
-        <p>评论：</p>
+        <p>评论：<span style="color:green;">{{ name }}</span><span id="by_reply" style="color:red;"></span></p>
         <div class="commentarea">
           <textarea  id="body_text" maxlength="200" placeholder="给个评论吧！"></textarea>
         </div>
         <div class="login">
-          <button>发表</button>
+          <button id="cancel_button">取消回复</button>
+          <button id="ok_button">发表评论</button>
         </div>
       </div><!--frombox结束-->
       <div id="commentList">
         {% for comment in commentList %}
           <div class="comment">
-          <h4>{{ comment.author.name }}
-            <span>
-              {{ comment.created_time.year }}-{{ comment.created_time.month }}-{{ comment.created_time.day }}
-            </span>
-          </h4>
-          <p>{{ comment.body }}</p>
+            <h4>{{ comment.author.name }}
+              <span>
+                {{ comment.created_time.year }}-{{ comment.created_time.month }}-{{ comment.created_time.day }}
+              </span>
+            </h4>
+            <p>{{ comment.body }}</p>
+            <div id="commentList">
+            {% for reply in comment.root_comment.all|dictsort:'created_time' %}
+              <div class="comment">
+                  <h4>{{ reply.author.name }}---回复---{{ reply.reply_to.name }}
+                    <span>
+                      {{ reply.created_time|date:"Y-m-d H:i:s" }}
+                    </span>
+                  </h4>
+                  <p>{{ reply.body }}</p>
+                  <div><a class="reply" href="#frombox"><input type="hidden" name={{ reply.author.name }} parentID={{ reply.pk }} rootID={{ reply.root.pk }} replyToID={{ reply.author.pk }} /><span>回复</span></a></div>
+                  <div class="clear"></div>
+              </div>
+            {% endfor %}
+            </div><!--commentList结束-->
+            <div><a class="reply" href="#frombox"><input type="hidden" name={{ comment.author.name }} parentID={{ comment.pk }} rootID={{ comment.pk }} replyToID={{ comment.author.pk }} /><span>回复</span></a></div>
+            <div class="clear"></div>
         </div>
         {% endfor %}
       </div><!--commentList结束-->
-    </div>
+    </div><!--commentbox-->
   </article>
   <aside>
     <div class="rnav">
@@ -107,7 +134,7 @@
       </h2>
       <ul class="ph_n">
         {% for post in readList %}
-          <li><span class="num1">1</span><a href="/">{{ post.title }}</a></li>
+          <li><span class="num{{ forloop.counter }}">{{ forloop.counter }}</span><a href="/">{{ post.title }}</a></li>
         {% endfor %}
       </ul>
       <h2>
@@ -148,17 +175,27 @@
   </aside>
   <script src="js/silder.js"></script>
   <div class="clear"></div>
-  <!-- Çå³ý¸¡¶¯ --> 
+  {% if messages %}
+    <ul class="messages">
+        {% for message in messages %}
+        <li{% if message.tags %} class="{{ message.tags }}"{% endif %}>{{ message }}</li>
+        {% endfor %}
+    </ul>
+  {% endif %}
 </div>
 <div class="footer">
   <p>胡中磊@2018<a href="#">意见反馈</a></p>
 </div><!--footer结束-->
 <script>
 
+  var rootID=""
+  var parentID=""
+  var replyToID=""
+
   $.ajaxSetup({
     data: {csrfmiddlewaretoken: '{{ csrf_token }}' },
   });
-  $("button").click(function(){
+  $("#ok_button").click(function(){
 
     var user_id="";
 
@@ -177,7 +214,7 @@
 
     $.ajax({
       url:"{% url 'blog:comment' %}",
-      data:{content:$("#body_text").val(), post_id:{{ post.pk }}},
+      data:{content:$("#body_text").val(), post_id:{{ post.pk }}, root_id:rootID, parent_id:parentID, replyTo_id:replyToID},
       cache : false,
       async : false,
       type : "POST",
@@ -188,6 +225,34 @@
         window.location.reload()
       }
          });
+  });
+
+    $("#cancel_button").click(function(){
+
+      rootID=""
+      parentID=""
+      replyToID=""
+
+      $("#by_reply").hide();
+      $("#cancel_button").hide();
+      $("#ok_button").text("发表评论");
+  });
+
+  $("#by_reply").hide();
+  $("#cancel_button").hide();
+
+  $(".reply").click(function(){
+
+      $("#by_reply").show();
+      $("#cancel_button").show();
+
+      var name = $(this).children('input').attr("name");
+      rootID = $(this).children('input').attr("rootID");
+      parentID = $(this).children('input').attr("parentID");
+      replyToID = $(this).children('input').attr("replyToID");
+
+      $("#by_reply").text("<<<回复>>>@" + name + rootID);
+      $("#ok_button").text("发表回复");
   });
 
 </script>

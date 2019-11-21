@@ -22,10 +22,10 @@ urlpatterns = [
     path('index/', blog_views.index, name='index'),
     path('share/', blog_views.share, name='share'),
     path('blogList/<int:page>/', blog_views.blogList, name='blogList'),
+    path('categoryList/<int:category_id>/<int:page>/', blog_views.categoryList, name='categoryList'),
     path('blog/<int:blog_id>/', blog_views.blogdetails, name='blogdetails'),
     path('user/<int:user_id>/', blog_views.user, name='user'),
     path('about/', blog_views.about, name='about'),
-    re_path(r'^test/(?P<year>\d+)?$', blog_views.test), # 可选参数
     path('rss/', AllPostsRssFeed(), name='rss'), # rss订阅
     path('loginView/', blog_views.loginView, name='loginView'),
     path('login/', blog_views.login, name='login'),

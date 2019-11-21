@@ -3,14 +3,19 @@
 from django.utils.html import format_html, strip_tags
 # f富文本
 from DjangoUeditor.models import UEditorField
+import html
 
 class BlogUser(models.Model):
 
-	account = models.CharField('账号', max_length=20)
+	account = models.CharField('账号', max_length=20, unique=True)
 	password = models.CharField('密码', max_length=20)
 	phone = models.CharField('手机号', max_length=20)
 	name = models.CharField('昵称', max_length=20)
 	userIcon = models.ImageField(upload_to='blog/images', default="blog/images/default_1.jpg")
+	professional = models.CharField('职业', max_length=20, default="ios开发工程师")
+	address = models.CharField('地址', max_length=20, default="上海市-闸北区")
+	email = models.CharField('邮箱', max_length=20, default="602387134@qq.com")
+	sign = models.CharField('签名', max_length=20, default="昆仑剑出血汪洋，千里直驱黄河黄")
 
 	def __str__(self):
 		return self.name
@@ -90,7 +95,10 @@ class Post(models.Model):
 		# 如果没有填写摘要
 		if not self.excerpt:
 			# 从文本摘取前 36 个字符赋给 excerpt
-			self.excerpt = strip_tags(self.body)[:36]
+			str_body = strip_tags(self.body)
+			# 处理html转译
+			txt = html.unescape(str_body)
+			self.excerpt = strip_tags(txt.lstrip())[:36]
 
 		# 调用父类的 save 方法将数据保存到数据库中
 		super(Post, self).save(*args, **kwargs)
@@ -123,13 +131,28 @@ class Comment(models.Model):
 	body = models.TextField('评论内容')
 	# 创建时间
 	created_time = models.DateTimeField('创建时间' ,auto_now_add=True)
-	# 评论用户
-	author = models.ForeignKey(BlogUser, verbose_name='评论用户', null=True, on_delete=models.SET_NULL)
+	# 评论用户,related_name参数设置反向解析
+	author = models.ForeignKey(BlogUser, verbose_name='评论用户', related_name="comments", null=True, on_delete=models.SET_NULL)
 	# 评论所属文章
 	post = models.ForeignKey(Post, verbose_name='评论所属文章', null=True, on_delete=models.SET_NULL)
 
+	'''----------修改适应回复----------'''
+
+	# 所属的根评论
+	root = models.ForeignKey('self', verbose_name='顶级评论', related_name="root_comment", null=True, on_delete=models.SET_NULL)
+	# 所属的评论或回复
+	parent = models.ForeignKey('self', verbose_name='所属评论或回复', related_name="parent_comment", null=True, on_delete=models.SET_NULL)
+	# 被回复的用户
+	reply_to = models.ForeignKey(BlogUser, verbose_name='被回复用户', related_name="replies", null=True, on_delete=models.SET_NULL)
+
 	def __str__(self):
-		return self.author.name
+
+		title = self.body
+
+		if self.post is None:
+			title = post.title
+
+		return title + self.author.name
 
 	class Meta:
 		ordering = ['-created_time']

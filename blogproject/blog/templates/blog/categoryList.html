@@ -1,6 +1,7 @@
 ﻿<!doctype html>
 <html>
 <head>
+<meta charset="UTF-8">
 {% load static %}
 <title>胡中磊的博客</title>
 <meta name="keywords" content="胡中磊的博客" />
@@ -33,35 +34,52 @@
     </nav>
   </header>
   <article>
-        <h2 class="about_h">您现在的位置
+    <h2 class="about_h">您现在的位置
       <a href="{% url 'blog:index' %}">首页</a>
       >
-      <a href="{% url 'blog:share' %}">文章分享</a>
+      <a href="{% url 'blog:blogList' 1 %}">博客列表</a>
     </h2>
-    <div class="template">
-      {% for userList in groupList %}
-        <h3>
-          <p><span>用户</span>组</p>
-          <a href="/" class="more">更多>></a> 
-        </h3>
-        <ul>
-          {% for user in userList %}
-            <li>
-              <a href="/"  target="_blank">
-                <img src="{{ user.userIcon.url }}">
-              </a>
-              <span>{{ user.name }}</span>
-            </li>
-          {% endfor %}
-        </ul>
+    <div class="bloglist">
+      {% for post in postList %}
+        <div class="newblog">
+          <ul>
+            <h3><a href="{% url 'blog:blogdetails' post.pk %}">{{ post.title }}</a></h3>
+            <div class="autor"><span>作者：{{ post.author.name }}</span><span>分类[<a href="{% url 'blog:categoryList' post.category.pk 1 %}">{{ post.category.name }}</a>]</span><span>浏览（<a>{{ post.views }}</a>）</span><span>评论（<a>{{ post.likes }}</a>）</span></div>
+            <p>{{ post.excerpt }}<a href="{% url 'blog:blogdetails' post.pk %}" target="_blank" class="readmore">全文</a></p>
+          </ul>
+          <figure><img src="{% static 'blog/images/01.jpg' %}" ></figure>
+          <div class="dateview">{{ post.created_time.year }}-{{ post.created_time.month }}-{{ post.created_time.day }}</div>
+        </div>
       {% endfor %}
+    </div>
+    <div class="page">
+      <a href="{% url 'blog:categoryList' category_id 1 %}">&lt;&lt;</a>
+      {% if page == 1 %}
+        <b>&lt;</b>
+      {% else %}
+        <a href="{% url 'blog:categoryList' category_id beforePage %}">&lt;</a>
+      {% endif %}
+      {% for leftPage in left %}
+        <a href="{% url 'blog:categoryList' category_id leftPage %}">{{ leftPage }}</a>
+      {% endfor %}
+      <b>{{ page }}</b>
+      {% for rightPage in right %}
+        <a href="{% url 'blog:categoryList' category_id rightPage %}">{{ rightPage }}</a>
+      {% endfor %}
+      {% if page == totalPage %}
+        <b>&gt;</b>
+      {% else %}
+        <a href="{% url 'blog:categoryList' category_id afterPage %}">&gt;</a>
+      {% endif %}
+      <a href="{% url 'blog:categoryList' category_id totalPage %}">&gt;&gt;</a>
+      <a title="Total record"><b>{{ totalPage }}</b></a>
     </div>
   </article>
   <aside>
     <div class="rnav">
       {% for category in categoryList %}
         <li class="rnav1 ">
-          <a href="{% url 'blog:blogList' 1 %}">{{ category.name }}</a>
+          <a href="{% url 'blog:categoryList' category.pk 1 %}">{{ category.name }}</a>
         </li>
       {% endfor %}
     </div>
@@ -71,7 +89,7 @@
       </h2>
       <ul class="ph_n">
         {% for post in readList %}
-          <li><span class="num1">1</span><a href="/">{{ post.title }}</a></li>
+          <li><span class="num{{ forloop.counter }}">{{ forloop.counter }}</span><a href="/">{{ post.title }}</a></li>
         {% endfor %}
       </ul>
       <h2>

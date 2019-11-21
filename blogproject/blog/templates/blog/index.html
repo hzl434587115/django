@@ -29,7 +29,7 @@
       {% if state %}
         <a href="{% url 'blog:logout' %}">退出</a>
       {% else %}
-        <a href="{% url 'blog:loginView' %}">登录</a>
+        <a href="{% url 'blog:loginView' %}?next=about&a=1">登录</a>
       {% endif %}
     </nav>
   </header>
@@ -53,7 +53,7 @@
             <a href="{% url 'blog:blogdetails' post.pk %}" target="_blank" class="readmore">阅读全文&gt;&gt;</a>
           </ul>
           <p class="autor">
-            <span>作者：{{ post.author.name }}</span><span>分类：【<a href="/">{{ post.category.name }}</a>】</span><span>浏览（<a href="/">{{ post.views }}</a>）</span><span>评论（<a href="/">{{ post.likes }}</a>）</span>
+            <span>作者：{{ post.author.name }}</span><span>分类：【<a href="{% url 'blog:categoryList' post.category.pk 1 %}">{{ post.category.name }}</a>】</span><span>浏览（<a>{{ post.views }}</a>）</span><span>评论（<a>{{ post.likes }}</a>）</span>
           </p>
           <div class="dateview">{{ post.created_time.year }}-{{ post.created_time.month }}-{{ post.created_time.day }}</div>
         </div>
@@ -61,12 +61,19 @@
     </div>
   </article>
   <aside>
-    <div class="avatar">
-      <img src="{{ userIcon }}" style='margin-top:0px;height:100%;width:100%;text-align:center;'>
-      <a href="{% url 'blog:about' %}">
-        <span>{{ account }}</span>
-      </a>
-    </div>
+    {% if state %}
+      <div class="avatar">
+        <a href="{% url 'blog:about' %}" style='display: block; padding-top: 100px; width: 160px; background: url("{{ userIcon }}") no-repeat; background-size: 160px 160px;'>
+          <span>{{ account }}</span>
+        </a>
+      </div>
+    {% else %}
+      <div class="avatar">
+        <a href="{% url 'blog:loginView' %}?next=about&a=1">
+          <span>未登录</span>
+        </a>
+      </div>
+    {% endif %}
     <div class="topspaceinfo">
       <h1>昆仑</h1>
       <p>{{ sign }}</p>
@@ -109,8 +116,8 @@
         <p>友情链接</p>
       </h2>
       <ul>
-        <li><a href="/">胡中磊个人博客</a></li>
-        <li><a href="/">3DST技术社区</a></li>
+        <li><a href="http://www.python88.com">Python中国社区</a></li>
+        <li><a href="https://www.pythontab.com">Python中文开发者社区门户</a></li>
       </ul>
     </div>
     <div class="copyright">
