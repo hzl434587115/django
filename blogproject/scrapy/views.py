@@ -40,7 +40,7 @@ def base_request(request, functionName, param):
 		print('----------------------异常开始----------------------')
 		print(str(e))
 		print('----------------------异常结束----------------------')
-		return json.dumps({"code": "1003", "des": '系统异常'})
+		return json.dumps({"code": "1003", "des": '系统异常', "error": str(e)})
 
 
 @csrf_exempt
@@ -108,7 +108,7 @@ def source_request(request):
 		print('----------------------异常开始----------------------')
 		print('view_source_request：' + str(e))
 		print('----------------------异常结束----------------------')
-		return json.dumps({"code": "1003", "des": "系统异常"})
+		return json.dumps({"code": "1003", "des": '系统异常', "error": str(e)})
 
 
 @csrf_exempt
