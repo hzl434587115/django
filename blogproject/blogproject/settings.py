@@ -23,8 +23,8 @@ BASE_DIR = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
 SECRET_KEY = '%pneig1233u16yjekk(_1h1l3ytqc7(%dg6h#p6gj15mp*!2#7'
 
 # SECURITY WARNING: don't run with debug turned on in production!
-#DEBUG = False
-DEBUG = True
+DEBUG = False
+#DEBUG = True
 
 ALLOWED_HOSTS = ['127.0.0.1', 'localhost ', 'www.juyiting.com', '104.224.161.114']
 
