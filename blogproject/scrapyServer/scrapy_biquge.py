@@ -88,9 +88,12 @@ def base_request(url):
 
 			return json.dumps({"code": "1001", "des": "参数错误"})
 
-		headers = {'user-agent': 'Mozilla/5.0 (Macintosh; Intel Mac OS X 10_14_0) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/78.0.3904.108 Safari/537.36'}
+		headers = {'user-agent': 'Mozilla/5.0 (Macintosh; Intel Mac OS X 10_14_0) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/79.0.3945.88 Safari/537.36'}
 		r = requests.get(url=url, headers=headers).text
+		'''
+		# 网页gnk返回时这么处理
 		r = r.encode("iso-8859-1").decode('gbk').encode('utf8')
+		'''
 		soup = BeautifulSoup(r, features="html.parser")
 
 		return soup
@@ -210,9 +213,9 @@ def info_request(url):
 		newChapter = info.select('p')[3].select('a')[0].string
 		newUrl = info.select('p')[3].select('a')[0].attrs['href']
 		firstUrl = soup.select('#list dl dd a')[0].attrs['href']
-		completFirstUrl = url + firstUrl
+		completFirstUrl = baseUrl + firstUrl
 
-		intro = soup.select('#intro p')[0].string
+		intro = soup.select('#intro')[0].string
 		icon = soup.select('#fmimg img')[0].attrs['src']
 
 		completeBookUrl = baseUrl + newUrl
