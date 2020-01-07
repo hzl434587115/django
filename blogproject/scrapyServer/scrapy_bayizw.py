@@ -1,14 +1,14 @@
 ﻿#!/usr/bin/env python3
 # -*- coding: utf-8 -*-
 
-#python scrapy_biquge.py
+#python scrapy_bayizw.py
 
 from bs4 import BeautifulSoup
 import requests
 import json
 
 
-baseUrl = "https://www.biduo.cc"
+baseUrl = "http://www.81zw.info"
 
 
 def search_request(url, param):
@@ -22,7 +22,7 @@ def search_request(url, param):
 
 			return json.dumps({"code": "1001", "des": "参数错误"})
 
-		searchUrl = 'https://www.biduo.cc/search.php'
+		searchUrl = 'http://www.81zw.info/web/search.php'
 
 		headers = {'user-agent': 'Mozilla/5.0 (Macintosh; Intel Mac OS X 10_14_0) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/78.0.3904.108 Safari/537.36'}
 		r = requests.get(url=searchUrl, headers=headers, params={'q': param['keyword']})
@@ -32,38 +32,37 @@ def search_request(url, param):
 
 		total = '1'
 
-		resultList = soup.select('.result-list .result-item')
+		resultList = soup.select('#main .novelslist2 ul li')
 
-		for result in resultList:
+		for result in resultList[1:]:
 
-			detail = result.select('.result-game-item-detail')[0]
-			title = detail.select('h3 a span')[0].string
-			url = detail.select('h3 a')[0].attrs['href']
-			intro = detail.select('p')[0].string
-
-			info = detail.select('.result-game-item-info-tag')
-			author = info[0].select('span')[1].string
-			category = info[1].select('span')[1].string
-			lastTime = info[2].select('span')[1].string
+			info = result.select('span')
+			title = info[1].select('a')[0].string
+			url = info[1].select('a')[0].attrs['href']
+			author = info[2].string
+			category = info[0].string
 			newChapter = info[3].select('a')[0].string
+			newChapter = newChapter.replace("\n", "")
+			newChapter = newChapter.replace(" ", "")
 			newUrl = info[3].select('a')[0].attrs['href']
+			intro = newChapter
+			icon = ''
+			lastTime = info[4].string
 
-			icon = result.select('.result-game-item-pic a img')[0].attrs['src']
-
-			author = author.replace("\r\n", "")
-			author = author.replace(" ", "")
+			completeUrl = baseUrl + url
+			completeNewUrl = baseUrl + newUrl
 
 			'''
-			print('《%s》:%s' % (title, url))
+			print('《%s》:%s' % (title, completeUrl))
 			print('封面:%s' % icon)
 			print('作者:%s' % author)
-			print('%s:%s' % (newChapter, newUrl))
+			print('%s:%s' % (newChapter, completeNewUrl))
 			print('分类:%s' % category)
 			print('更新时间:%s' % lastTime)
 			print('简介:%s' % intro)
 			'''
 
-			d = {"title": title, "url": url, "newChapter": newChapter, "newUrl": newUrl, "author": author, "lastTime": lastTime, "category": category, "intro": intro, "iconUrl": icon}
+			d = {"title": title, "url": completeUrl, "newChapter": newChapter, "newUrl": completeNewUrl, "author": author, "lastTime": lastTime, "category": category, "intro": intro, "iconUrl": icon}
 			bookArray.append(d)
 
 		return json.dumps({"code": "6666", "des": "成功", "data": {"total": total, "bookArray": bookArray}})
@@ -76,7 +75,7 @@ def search_request(url, param):
 		return json.dumps({"code": "1003", "des": "网络连接错误"})
 	except Exception as e:
 		
-		error = 'biquge_search_request：' + str(e)
+		error = 'bayizw_search_request：' + str(e)
 		raise Exception(error)
 
 
@@ -90,10 +89,6 @@ def base_request(url):
 
 		headers = {'user-agent': 'Mozilla/5.0 (Macintosh; Intel Mac OS X 10_14_0) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/79.0.3945.88 Safari/537.36'}
 		r = requests.get(url=url, headers=headers).text
-		'''
-		# 网页gnk返回时这么处理
-		r = r.encode("iso-8859-1").decode('gbk').encode('utf8')
-		'''
 		soup = BeautifulSoup(r, features="html.parser")
 
 		return soup
@@ -106,7 +101,7 @@ def base_request(url):
 		return json.dumps({"code": "1003", "des": "网络连接错误"})
 	except Exception as e:
 		
-		error = 'biquge_base_request：' + str(e)
+		error = 'bayizw_base_request：' + str(e)
 		raise Exception(error)
 	else:
 
@@ -127,7 +122,8 @@ def category_request(url):
 			return soup
 
 		bookList = soup.select('#newscontent .l ul li')
-		total = "1"
+		lastPage = soup.select('#PageBar ul li')[-3]
+		total = lastPage.select('a')[0].string
 
 		bookArray = list()
 
@@ -145,7 +141,7 @@ def category_request(url):
 
 			'''
 			print('《%s》:%s' % (title, completeUrl))
-			print('%s:%s' % (newChapter, completeNewUrl))
+			print('%s:%s' % (newChapter, baseUrl + newUrl))
 			print('作者:%s' % author)
 			'''
 
@@ -156,7 +152,7 @@ def category_request(url):
 
 	except Exception as e:
 		
-		error = 'biquge_category_request：' + str(e)
+		error = 'bayizw_category_request：' + str(e)
 		raise Exception(error)
 
 
@@ -179,7 +175,7 @@ def chapter_request(url):
 			title = chapter.string
 			chapterUrl = chapter.attrs['href']
 
-			completeUrl = url + chapterUrl
+			completeUrl = baseUrl + chapterUrl
 
 			#print('%s:%s' % (title, completeUrl))
 
@@ -190,7 +186,7 @@ def chapter_request(url):
 
 	except Exception as e:
 		
-		error = 'biquge_chapter_request：' + str(e)
+		error = 'bayizw_chapter_request：' + str(e)
 		raise Exception(error)
 
 
@@ -218,7 +214,7 @@ def info_request(url):
 		intro = soup.select('#intro')[0].string
 		icon = soup.select('#fmimg img')[0].attrs['src']
 
-		completeBookUrl = baseUrl + newUrl
+		completeBookUrl = newUrl
 
 		'''
 		print(title)
@@ -233,7 +229,7 @@ def info_request(url):
 
 	except Exception as e:
 		
-		error = 'biquge_info_request：' + str(e)
+		error = 'bayizw_info_request：' + str(e)
 		raise Exception(error)
 
 
@@ -261,7 +257,7 @@ def content_request(url):
 
 			book = book.lstrip('\n')
 
-		completeBookUrl = baseUrl + bookUrl
+		completeBookUrl = bookUrl
 		completePrevious = baseUrl + previous
 		completeNext = baseUrl + next
 
@@ -285,17 +281,17 @@ def content_request(url):
 
 	except Exception as e:
 		
-		error = 'biquge_content_request：' + str(e)
+		error = 'bayizw_content_request：' + str(e)
 		raise Exception(error)
 
 
 if __name__ == '__main__':
 
-	search_request('https://www.biduo.cc/search.php', {'keyword': '滚开'})
-	#category_request('https://www.biduo.cc/book_1_1/')
-	#info_request('https://www.biduo.cc/biquge/39_39809/')
-	#chapter_request('https://www.biduo.cc/biquge/39_39809/')
-	#content_request('https://www.biduo.cc/biquge/39_39809/c13239750.html')
+	search_request('http://www.81zw.info/web/search.php', {'keyword': '滚开'})
+	#category_request('http://www.81zw.info/xuanhuanxiaoshuo/1.html')
+	#info_request('http://www.81zw.info/book/3203/')
+	#chapter_request('http://www.81zw.info/book/3203/')
+	#content_request('http://www.81zw.info/book/3203/598481.html')
 
 
 
