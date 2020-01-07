@@ -50,6 +50,9 @@ def search_request(url, param):
 
 			icon = result.select('.result-game-item-pic a img')[0].attrs['src']
 
+			completeUrl = baseUrl + url
+			completeNewUrl = baseUrl + newUrl
+
 			author = author.replace("\r\n", "")
 			author = author.replace(" ", "")
 
@@ -63,7 +66,7 @@ def search_request(url, param):
 			print('简介:%s' % intro)
 			'''
 
-			d = {"title": title, "url": url, "newChapter": newChapter, "newUrl": newUrl, "author": author, "lastTime": lastTime, "category": category, "intro": intro, "iconUrl": icon}
+			d = {"title": title, "url": completeUrl, "newChapter": newChapter, "newUrl": completeNewUrl, "author": author, "lastTime": lastTime, "category": category, "intro": intro, "iconUrl": icon}
 			bookArray.append(d)
 
 		return json.dumps({"code": "6666", "des": "成功", "data": {"total": total, "bookArray": bookArray}})
@@ -179,7 +182,7 @@ def chapter_request(url):
 			title = chapter.string
 			chapterUrl = chapter.attrs['href']
 
-			completeUrl = url + chapterUrl
+			completeUrl = baseUrl + chapterUrl
 
 			#print('%s:%s' % (title, completeUrl))
 
