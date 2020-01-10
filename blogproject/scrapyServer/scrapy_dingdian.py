@@ -30,7 +30,16 @@ def base_request(url):
 
 		headers = {'user-agent': 'Mozilla/5.0 (Macintosh; Intel Mac OS X 10_14_0) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/78.0.3904.108 Safari/537.36'}
 		r = requests.get(url=url, headers=headers)
-		soup = BeautifulSoup(r.text, features="html.parser")
+		html = html = r.text
+		if r.encoding == 'gbk':
+			
+			# 网页gnk返回时这么处理
+			html = html.encode('utf8')
+		elif r.encoding == 'ISO-8859-1':
+			# 网页gnk返回时这么处理
+			html = html.encode("iso-8859-1").decode('gbk').encode('utf8')
+
+		soup = BeautifulSoup(html, features="html.parser")
 
 		return soup
 
